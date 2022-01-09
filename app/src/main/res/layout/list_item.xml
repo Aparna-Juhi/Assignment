@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/constraint"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview"
+        android:layout_width="match_parent"
+        android:layout_height="164dp"
+        android:padding="40dp"
+        android:layout_margin="8dp"
+        app:cardBackgroundColor="#15222E"
+        app:cardCornerRadius="6dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/matchvenue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+
+
+                android:fontFamily="@font/poppins_light"
+                android:gravity="bottom"
+                android:text="@string/match_venue"
+                android:textAppearance="@style/match_venue"
+                android:textColor="#9FA3A7"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/t1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
+                android:layout_marginTop="49dp"
+
+                android:fontFamily="@font/poppins_light"
+                android:gravity="bottom"
+
+                android:text="@string/india"
+                android:textAppearance="@style/india"
+                android:textColor="#CFD1D3"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/t2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="56dp"
+                android:layout_marginTop="85dp"
+                android:fontFamily="@font/poppins_light"
+                android:gravity="bottom"
+
+                android:text="@string/india1"
+                android:textAppearance="@style/india"
+                android:textColor="#CFD1D3"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/line_843"
+                android:layout_width="304dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="123dp"
+
+                android:alpha="0.7"
+                android:background="@drawable/line_843"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            <View
+                android:id="@+id/match_card"
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+
+                android:alpha="0.7"
+                android:background="@drawable/match_card_"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/starting_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginBottom="94dp"
+
+                android:gravity="center_horizontal|bottom"
+                android:text="@string/starting_in"
+                android:textColor="#CFD1D3"
+                android:textSize="11sp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/match_card" />
+
+            <TextView
+                android:id="@+id/h_34m"
+                android:layout_width="79dp"
+                android:layout_height="19dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+
+                android:layout_marginBottom="71dp"
+                android:gravity="center_horizontal|bottom"
+                android:lineSpacingExtra="0sp"
+                android:text="@string/h_34m"
+                android:textColor="#EAAE54"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/match_card"
+                app:layout_constraintTop_toBottomOf="@+id/starting_in" />
+
+
+
+            <TextView
+                android:id="@+id/rate_team"
+                android:layout_marginBottom="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle_3"
+                android:alpha="0.8"
+                android:layout_marginEnd="83dp"
+                android:gravity="center_horizontal|top"
+                android:text="@string/dc"
+                android:textAppearance="@style/dc"
+                android:textColor="#FCFCFC"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                 />
+
+
+
+
+
+            <TextView
+                android:id="@+id/rate"
+                android:background="@drawable/rectangle_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:alpha="0.8"
+                android:layout_marginEnd="46dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center_horizontal|top"
+                android:text="@string/ninty"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                android:textAppearance="@style/dc"
+                android:textColor="#FCFCFC"
+                android:textSize="14sp"
+
+                />
+
+
+
+            <TextView
+                android:id="@+id/rate2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="286dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.8"
+                android:background="@drawable/rectangle_5"
+                android:gravity="center_horizontal|top"
+                android:text="@string/ninty"
+                android:textAppearance="@style/dc"
+                android:textColor="#FCFCFC"
+
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/sixty_percent_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintGuide_percent="0.6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/t1flag"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:layout_constraintTop_toBottomOf="@id/matchvenue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/t1"
+                android:layout_marginTop="16dp"
+
+
+                 />
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/t2flag"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                app:layout_constraintTop_toBottomOf="@id/t1flag"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/t2"
+                android:layout_marginTop="8dp"
+
+
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

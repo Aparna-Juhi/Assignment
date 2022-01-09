@@ -18,9 +18,9 @@ public class finished_frag extends Fragment {
 
         return v;
     }
-    public static upcoming_frag newInstance() {
+    public static finished_frag newInstance() {
 
-        upcoming_frag f = new upcoming_frag();
+        finished_frag f = new finished_frag();
         return f;
     }
 }

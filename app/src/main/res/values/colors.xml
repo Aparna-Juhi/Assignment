@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="cricket">#0C131A</color>
+    <color name="colorPrimaryDark">#067d9b</color>
+    <color name="colorAccent">#FF4081</color>
 </resources>

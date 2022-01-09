@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Assignment</string>
+    <string name="match_venue">25th T20 at Sharjah International Ground</string>
+    <string name="india">Delhi Capitals</string>
+    <string name="match_comme">3 more matches</string>
+    <string name="starting_in">Starting in:</string>
+    <string name="india1">Chennai Super Kings</string>
+    <string name="h_34m">02h : 34m</string>
+    <string name="dc">DC</string>
+    <string name="ninty">98</string>
 </resources>

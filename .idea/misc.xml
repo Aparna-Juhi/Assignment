@@ -3,11 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/cricketExchangeLogo.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/line_820.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/rectangle_5.xml" value="0.1" />
+        <entry key="app/src/main/res/font/poppins_light.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/finished_frag.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/splash_screen.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/upcoming_frag.xml" value="0.1" />
       </map>
