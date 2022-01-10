@@ -1,3 +1,80 @@
 <resources>
     <string name="app_name">Assignment</string>
+    <string name="match_venue">
+        25th T20 at Sharjah International Ground
+    </string>
+
+    <string name="match_time_at_date">
+        7:30 PM
+    </string>
+
+    <string name="match_date">
+        5 June
+    </string>
+
+    <string name="team_1">
+        Sri Lanka
+    </string>
+
+    <string name="team_2">
+        Bangladesh
+    </string>
+
+    <string name="starting_in">
+        Starting in:
+    </string>
+
+    <string name="match_in_hm">
+        02h:34m
+    </string>
+
+    <string name="team_name_for_data">
+        DC
+    </string>
+
+    <string name="odds_in_favour">
+        98
+    </string>
+
+    <string name="odds_against">
+        99
+    </string>
+
+    <string name="results_details">
+        by 8 runs
+    </string>
+
+    <string name="match_results">
+        AUS Won
+    </string>
+
+    <string name="team_1_score">
+        156-5
+    </string>
+
+    <string name="team_2_score">
+        164-8
+    </string>
+
+    <string name="total_overs_1">
+        20.0
+    </string>
+
+    <string name="total_overs_2">
+        20.0
+    </string>
+
+    <string name="match_date_between_cards">
+        Yesterday, 13 October
+    </string>
+
+    <string name="all_matches_text">
+        All Upcoming Matches
+    </string>
+
+    <string name="arrow_right">
+        >
+    </string>
+
+
 </resources>

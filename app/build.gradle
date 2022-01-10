@@ -28,7 +28,15 @@ android {
 }
 
 dependencies {
+    //Fresco
+    implementation 'com.facebook.fresco:fresco:2.6.0'
 
+    // this is for Volley
+    implementation 'com.android.volley:volley:1.2.1'
+
+    //this is for Fresco
+    implementation 'com.facebook.fresco:fresco:2.6.0'
+    
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
