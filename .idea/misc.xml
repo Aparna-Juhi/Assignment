@@ -5,13 +5,24 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/cricketExchangeLogo.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/horizontal_line.xml" value="0.190625" />
+        <entry key="app/src/main/res/drawable/ic_match_card_bg.xml" value="0.190625" />
         <entry key="app/src/main/res/drawable/line_820.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/odds_against_rect_bg.xml" value="0.190625" />
+        <entry key="app/src/main/res/drawable/odds_in_favour_rec_bg.xml" value="0.190625" />
         <entry key="app/src/main/res/drawable/rectangle_5.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/team_name_rect_bg.xml" value="0.190625" />
+        <entry key="app/src/main/res/drawable/vertical_line.xml" value="0.190625" />
+        <entry key="app/src/main/res/font/poppins.xml" value="0.2046875" />
+        <entry key="app/src/main/res/font/poppins_bold.xml" value="0.2046875" />
         <entry key="app/src/main/res/font/poppins_light.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.18333333333333332" />
+        <entry key="app/src/main/res/layout/background_card_for_match_on_date.xml" value="0.31875" />
         <entry key="app/src/main/res/layout/finished_frag.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/finished_match_card.xml" value="0.5604001294424836" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/match_card.xml" value="0.17447916666666666" />
         <entry key="app/src/main/res/layout/splash_screen.xml" value="0.18333333333333332" />
         <entry key="app/src/main/res/layout/upcoming_frag.xml" value="0.1" />
       </map>

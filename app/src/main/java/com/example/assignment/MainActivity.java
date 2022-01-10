@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-        Log.d("msg", "running");
+
         Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
         startActivity(intent);
         viewPager = findViewById(R.id.mypager);

@@ -123,7 +123,7 @@
                 app:layout_constraintStart_toEndOf="@+id/match_card" />
 
             <TextView
-                android:id="@+id/h_34m"
+                android:id="@+id/time"
                 android:layout_width="79dp"
                 android:layout_height="19dp"
                 android:layout_alignParentLeft="true"

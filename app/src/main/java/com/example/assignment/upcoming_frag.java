@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+
 public class upcoming_frag extends Fragment {
     private Context mContext;
     private Context getMyContext(){
@@ -70,15 +72,21 @@ public class upcoming_frag extends Fragment {
                                 JSONObject jsonObj = jsonArr.getJSONObject(i);
                                 JSONArray childArr= jsonObj.getJSONArray("m");
                                 JSONObject childObj = childArr.getJSONObject(0);
+                                long time_of_match=Long.parseLong(childObj.getString("t")) ;
+                                SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm aa");
+                                SimpleDateFormat formatDate=new SimpleDateFormat("d MMM ");
+                                String time = formatTime.format(
+                                        time_of_match);
+                                String date=formatDate.format(time_of_match);
                                 JSONObject childchildObj= childObj.has("odds")?childObj.getJSONObject("odds"):null;
 //jsonObj.getString("date"),
                                 if(childchildObj!=null)
                                 scorecards[i]=new scorecards(childObj.getString("t1"), childObj.getString("t2")
                                 , childchildObj.getString("rate"),childchildObj.getString("rate2"),
-                                        childchildObj.getString("rate_team"), childObj.getString("t1flag"),childObj.getString("t2flag") );
+                                        childchildObj.getString("rate_team"), childObj.getString("t1flag"),childObj.getString("t2flag"),date, time);
                                 else
                                     scorecards[i]=new scorecards(childObj.getString("t1"), childObj.getString("t2")
-                                            , null,null, null, childObj.getString("t1flag"),childObj.getString("t2flag"));
+                                            , null,null, null, childObj.getString("t1flag"),childObj.getString("t2flag"), date, time);
                             }
 
                         } catch (JSONException e) {

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:padding="4dp"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+<!-- match card bg -->
+<View
+    android:id="@+id/match_card"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:background="@drawable/ic_match_card_bg"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    />
+
+
+
+<!-- horizontal guideline at 59%
+<androidx.constraintlayout.widget.Guideline
+    android:id="@+id/fifty_nine_percent_guideline"
+    android:layout_width="164dp"
+    android:layout_height="match_parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintGuide_percent=".59"
+    />
+   -->
+
+<!-- vertical guideline at 65% -->
+<androidx.constraintlayout.widget.Guideline
+    android:id="@+id/sixty_five_percent_guideline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintGuide_percent="0.65"
+    android:orientation="vertical"
+    />
+
+<!-- match venue -->
+<TextView
+    android:id="@+id/match_venue"
+    android:text="@string/match_venue"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintLeft_toLeftOf="@id/team_flag_1"
+    app:layout_constraintBottom_toTopOf="@id/team_flag_1"
+    android:fontFamily="@font/euclid_circular_regular"
+    android:textAppearance="@style/match_venue"
+    android:layout_marginBottom="22dp"
+    />
+
+<!-- divider line -->
+<View
+    android:id="@+id/vertical_divider_line"
+    android:layout_width="1dp"
+    android:layout_height="40dp"
+    android:background="@drawable/vertical_line"
+    app:layout_constraintTop_toTopOf="@id/match_card"
+    app:layout_constraintBottom_toBottomOf="@id/match_card"
+    app:layout_constraintLeft_toLeftOf="@id/sixty_five_percent_guideline"
+    app:layout_constraintRight_toRightOf="@id/sixty_five_percent_guideline"
+    app:layout_constraintVertical_bias="0.59"
+    />
+
+
+<!-- start time -->
+<TextView
+    android:id="@+id/start_time_of_match_at_date"
+    android:text="@string/match_time_at_date"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintLeft_toLeftOf="@id/sixty_five_percent_guideline"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="@id/vertical_divider_line"
+    app:layout_constraintBottom_toTopOf="@id/match_date"
+    android:textAppearance="@style/start_time_of_match_at_date"
+    />
+
+<!-- match date -->
+<TextView
+    android:id="@+id/match_date"
+    android:text="@string/match_date"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintLeft_toLeftOf="@id/start_time_of_match_at_date"
+    app:layout_constraintRight_toRightOf="@id/start_time_of_match_at_date"
+    app:layout_constraintTop_toBottomOf="@id/start_time_of_match_at_date"
+    android:layout_marginTop="4dp"
+    app:layout_constraintBottom_toBottomOf="@id/vertical_divider_line"
+    android:textAppearance="@style/match_date"
+    />
+
+<!-- flag 1 -->
+<com.facebook.drawee.view.SimpleDraweeView
+    android:id="@+id/team_flag_1"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="@id/vertical_divider_line"
+    app:layout_constraintBottom_toTopOf="@id/team_flag_2"
+    app:layout_constraintRight_toRightOf="@id/sixty_five_percent_guideline"
+    app:layout_constraintHorizontal_bias="0.2"
+
+    />
+
+<!-- flag 2 -->
+<com.facebook.drawee.view.SimpleDraweeView
+    android:id="@+id/team_flag_2"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    app:layout_constraintRight_toRightOf="@id/sixty_five_percent_guideline"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/team_flag_1"
+    app:layout_constraintBottom_toBottomOf="@id/vertical_divider_line"
+    app:layout_constraintHorizontal_bias="0.2"
+    android:layout_marginTop="4dp"
+    />
+
+<!-- team 1 -->
+<TextView
+    android:id="@+id/team_name_1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:fontFamily="@font/poppins"
+    android:text="@string/team_1"
+    android:textAppearance="@style/team_name"
+    app:layout_constraintBottom_toBottomOf="@id/team_flag_1"
+    app:layout_constraintLeft_toRightOf="@id/team_flag_1"
+    app:layout_constraintTop_toTopOf="@id/team_flag_1" />
+
+<!-- team 2 -->
+<TextView
+    android:id="@+id/team_name_2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/poppins"
+    android:layout_marginLeft="8dp"
+    android:text="@string/team_2"
+    android:textAppearance="@style/team_name"
+    app:layout_constraintBottom_toBottomOf="@id/team_flag_2"
+    app:layout_constraintLeft_toRightOf="@id/team_flag_2"
+    app:layout_constraintTop_toTopOf="@id/team_flag_2" />
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

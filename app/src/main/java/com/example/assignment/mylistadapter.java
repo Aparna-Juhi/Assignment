@@ -43,11 +43,14 @@ public class mylistadapter extends RecyclerView.Adapter<mylistadapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final scorecards myListData = scorecards[position];
+        //final scorecards myListData = scorecards[position];
         holder.t1.setText(scorecards[position].gett1());
         holder.t2.setText(scorecards[position].gett2());
         holder.t1flag.setImageURI(scorecards[position].gett1flag());
         holder.t2flag.setImageURI(scorecards[position].gett2flag());
+        holder.starting_in.setText(scorecards[position].getStarting_in());
+        holder.time.setText(scorecards[position].getTime());
+
 
         if(scorecards[position].getrate()!=null) {
             holder.rate.setText(scorecards[position].getrate());
@@ -80,7 +83,7 @@ public class mylistadapter extends RecyclerView.Adapter<mylistadapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView t1, t2, rate, rate2, rate_team;
+        public TextView t1, t2, rate, rate2, rate_team, starting_in, time;
         public View rectangle3, rectangle4,rectangle5;
         SimpleDraweeView t1flag,t2flag;
         public TextView place;
@@ -90,7 +93,8 @@ public class mylistadapter extends RecyclerView.Adapter<mylistadapter.ViewHolder
             super(itemView);
             this.t1 = (TextView) itemView.findViewById(R.id.t1);
             this.t2 = (TextView) itemView.findViewById(R.id.t2);
-
+            this.starting_in=(TextView) itemView.findViewById(R.id.starting_in);
+            this.time= (TextView) itemView.findViewById(R.id.time);
             this.rectangle3=(View) itemView.findViewById(R.id.rate);
             this.rectangle4=(View) itemView.findViewById(R.id.rate2);
             this.rectangle5=(View) itemView.findViewById(R.id.rate_team);
