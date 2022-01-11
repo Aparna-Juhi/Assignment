@@ -25,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +34,7 @@ import java.util.Date;
 public class upcoming_frag extends Fragment {
 
     Context mContext;
-    ArrayList<ArrayList<String>> dataList;
+
 
     @Nullable
     @Override
@@ -42,10 +44,13 @@ public class upcoming_frag extends Fragment {
         upcRecViu.setLayoutManager(new LinearLayoutManager(getMyContext()));
         Log.d("check", "onCreateRunning");
         //ArrayList<ArrayList<String>> dataList= getArguments().getStringArrayList("transfer_to_new_fragment");
+
+        ArrayList<ArrayList<String>> dataList = new ArrayList<>();
         AdapterForUpcomingMatches adapter = new AdapterForUpcomingMatches(dataList);
+
+        getData(adapter);
         //upcRecViu.setHasFixedSize(true);
         upcRecViu.setAdapter(adapter);
-        //adapter.notifyDataSetChanged();
 
         return v;
     }
@@ -56,12 +61,13 @@ public class upcoming_frag extends Fragment {
         return mContext;
     }
 
-    public static upcoming_frag newInstance(Object data) {
+    public upcoming_frag newInstance(Object data) {
 
         upcoming_frag f = new upcoming_frag();
-        Bundle args = new Bundle();
 
-        new upcoming_frag().getData(); //TODO get from data
+        //Bundle args = new Bundle();
+
+        //f.getData();
 
         //args.putStringArrayList("transfer_to_new_fragment", new upcoming_frag().dataList);
         //f.setArguments(args);
@@ -70,9 +76,10 @@ public class upcoming_frag extends Fragment {
     }
 
 
-     void getData() {
+     void getData(AdapterForUpcomingMatches adapter) {
         RequestQueue queue = Volley.newRequestQueue(getMyContext());
         String url ="https://mocki.io/v1/30786c0a-390e-41d5-9ad8-549ed26cba64";
+        Log.d("test", "getData Loaded");
 
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -84,6 +91,7 @@ public class upcoming_frag extends Fragment {
 
                             JSONArray jsonArr = new JSONArray(response);
                             //scorecards = new scorecards[jsonArr.length()];
+
                             UpcomingDataItem upcomingDataItem = new UpcomingDataItem();
                             String key ="", team1Name ="", team2Name ="", team1Flag ="", team2Flag ="", date ="", timeStamp ="", oddsInFavour ="", oddsAgainst ="", rateTeamName = "";
 
@@ -91,12 +99,25 @@ public class upcoming_frag extends Fragment {
                             {
 
                                 /*
-                                JSONObject jsonObj = jsonArr.getJSONObject(i);
-                                scorecards[i]=new scorecards(jsonObj.getString("date"), "Delhi");
+                                    JSONObject jsonObj = jsonArr.getJSONObject(i);
+                                    scorecards[i]=new scorecards(jsonObj.getString("date"), "Delhi");
                                 */
 
                                 JSONObject jsonObj = jsonArr.getJSONObject(i);
-                                date = jsonObj.getString("date");
+                                date = (jsonObj.getString("date"));
+                                // Formatted date
+                                SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+                                Date dt1 = null;
+                                try {
+                                    dt1 = format1.parse(date);
+                                }
+                                catch (Exception e) {
+                                    Log.d("error", "incorrect parsig of date");
+                                }
+                                DateFormat format2=new SimpleDateFormat("EEEE");
+                                String dayOfWeek=format2.format(dt1);
+                                String month[] = {" ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                                date = dayOfWeek +", "+ Integer.parseInt(date.substring(date.indexOf('/')+1, date.lastIndexOf('/'))) +" "+ month[Integer.parseInt(date.substring(0, date.indexOf('/')))];
 
                                 upcomingDataItem.updateItem("1", team1Name, team2Name, team1Flag, team2Flag, date, timeStamp, oddsInFavour, oddsAgainst, rateTeamName);
 
@@ -110,8 +131,10 @@ public class upcoming_frag extends Fragment {
                                     team1Flag = match.getString("t1flag");
                                     team2Flag = match.getString("t2flag");
                                     date = match.getString("date");
+                                    date = Integer.parseInt(date.substring(date.indexOf('/')+1, date.lastIndexOf('/'))) +" "+ month[Integer.parseInt(date.substring(0, date.indexOf('/')))];
+
                                     Long timeStampLong = Long.parseLong(match.getString("t"));
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                                     timeStamp = dateFormat.format(new Date(timeStampLong));
 
                                     JSONObject matchIn3h = match.has("odds")?match.getJSONObject("odds"):null;
@@ -142,12 +165,19 @@ public class upcoming_frag extends Fragment {
                                  */
                             }
                             upcomingDataItem.updateItem("4", team1Name, team2Name, team1Flag, team2Flag, date, timeStamp, oddsInFavour, oddsAgainst, rateTeamName);
-                            dataList = upcomingDataItem.getDataList();
+
+                            adapter.dataList = upcomingDataItem.getDataList();
+                            adapter.notifyDataSetChanged();
+
                         } catch (JSONException e) {
                             Log.e("error message", ""+e.getMessage());
                             e.printStackTrace();
                         }
                     }
+
+
+
+
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
@@ -155,6 +185,53 @@ public class upcoming_frag extends Fragment {
                     }
                 });;
         queue.add(stringRequest);
+    }
+
+    String getFormarttedDate(String date)  {
+        //String input_date="01/08/2012";
+        /*
+        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+        Date dt1=null;
+        try {
+            dt1 = format1.parse(date);
+        }
+        catch (Exception e) {}
+        DateFormat format2=new SimpleDateFormat("EEEE");
+        String finalDay=format2.format(dt1);
+        String res=finalDay+" ";
+        */
+        String res="";
+        int day = Integer.parseInt(date.substring(date.indexOf('/')));
+        int month = Integer.parseInt(date.substring(date.indexOf('/')+1, date.lastIndexOf('/')));
+        res += day+" ";
+
+        switch(month) {
+            case 1:
+                res+="January";  break;
+            case 2:
+                res+="February";  break;
+            case 3:
+                res+="March";  break;
+            case 4:
+                res+="April";  break;
+            case 5:
+                res+="May";  break;
+            case 6:
+                res+="Jun";  break;
+            case 7:
+                res+="July";  break;
+            case 8:
+                res+="August";  break;
+            case 9:
+                res+="September";  break;
+            case 10:
+                res+="October";  break;
+            case 11:
+                res+="November";  break;
+            case 12:
+                res+="December";  break;
+        }
+        return res;
     }
 
 }

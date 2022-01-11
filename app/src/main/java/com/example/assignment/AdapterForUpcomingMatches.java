@@ -108,9 +108,11 @@ public class AdapterForUpcomingMatches extends RecyclerView.Adapter<RecyclerView
     // LAYOUT_FOUR -> last layout for all matches
     public static class ViewHolderForAllMatches extends RecyclerView.ViewHolder {
         TextView all_matches_text;
+        View cardBg;
         public ViewHolderForAllMatches(@NonNull View itemView) {
             super(itemView);
             all_matches_text = itemView.findViewById(R.id.all_matches_text);
+            cardBg = itemView.findViewById(R.id.match_card);
         }
     }
 
@@ -188,7 +190,15 @@ public class AdapterForUpcomingMatches extends RecyclerView.Adapter<RecyclerView
             case LAYOUT_FOUR:
                 ViewHolderForAllMatches viewHolderForAllMatches = (ViewHolderForAllMatches) holder;
                 viewHolderForAllMatches.all_matches_text.setText("All Upcoming Matches");
+                viewHolderForAllMatches.cardBg.setOnClickListener(new View.OnClickListener() {
+                                                                      @Override
+                                                                      public void onClick(View view) {
+                Toast.makeText(view.getContext(), "Showing all Upcoming Matches", Toast.LENGTH_SHORT).show();
+                                                                      }
+                                                                  }
+                );
                 break;
+
         }
 
         /*

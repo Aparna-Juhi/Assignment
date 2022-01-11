@@ -93,7 +93,10 @@
         android:text="@string/results_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="110dp"
         android:fontFamily="@font/poppins"
+        android:lines="2"
+        android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="@id/match_results"
         app:layout_constraintRight_toRightOf="@id/match_results"
         app:layout_constraintTop_toBottomOf="@id/match_results"
@@ -111,7 +114,7 @@
         app:layout_constraintTop_toTopOf="@id/vertical_divider_line"
         app:layout_constraintBottom_toTopOf="@id/team_flag_2"
         app:layout_constraintRight_toRightOf="@id/sixty_five_percent_guideline"
-        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_bias="0.1"
         />
 
     <!-- flag 2 -->
@@ -123,7 +126,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/team_flag_1"
         app:layout_constraintBottom_toBottomOf="@id/vertical_divider_line"
-        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_bias="0.1"
         android:layout_marginTop="4dp"
         />
 

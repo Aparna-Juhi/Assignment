@@ -5,7 +5,11 @@ import java.util.ArrayList;
 
 public class UpcomingDataItem {
 
-    private static ArrayList<ArrayList<String>> dataList = new ArrayList<>();
+    private ArrayList<ArrayList<String>> dataList;
+
+    public UpcomingDataItem() {
+        dataList = new ArrayList<>();
+    }
 
     /*
     indexes

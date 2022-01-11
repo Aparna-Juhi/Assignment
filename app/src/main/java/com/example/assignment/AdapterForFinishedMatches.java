@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -75,9 +76,11 @@ public class AdapterForFinishedMatches extends RecyclerView.Adapter<RecyclerView
     // LAYOUT_THREE for finished all matches text
     public static class ViewHolderForAllMatchesText extends RecyclerView.ViewHolder {
         TextView allMatchesText;
+        View cardBg;
         public ViewHolderForAllMatchesText(@NonNull View itemView) {
             super(itemView);
             allMatchesText = itemView.findViewById(R.id.all_matches_text);
+            cardBg = itemView.findViewById(R.id.match_card);
         }
     }
 
@@ -97,8 +100,8 @@ public class AdapterForFinishedMatches extends RecyclerView.Adapter<RecyclerView
                 return viewHolderForMatchData;
             case LAYOUT_THREE:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_matches_layout, parent, false);
-                AdapterForUpcomingMatches.ViewHolderForAllMatches viewHolderForAllMatches = new AdapterForUpcomingMatches.ViewHolderForAllMatches(view);
-                return viewHolderForAllMatches;
+                ViewHolderForAllMatchesText viewHolderForAllMatchesText = new ViewHolderForAllMatchesText(view);
+                return viewHolderForAllMatchesText;
             default:
                 return null;
         }
@@ -137,6 +140,12 @@ public class AdapterForFinishedMatches extends RecyclerView.Adapter<RecyclerView
             case LAYOUT_THREE:
                 ViewHolderForAllMatchesText viewHolderForAllMatchesText = (ViewHolderForAllMatchesText) holder;
                 viewHolderForAllMatchesText.allMatchesText.setText("All Finished Matches");
+                viewHolderForAllMatchesText.cardBg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(view.getContext(), "Showing all Finished Matches", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
         }
         /*

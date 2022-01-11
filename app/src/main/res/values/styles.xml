@@ -2,7 +2,9 @@
 <resources>
 
  <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
-     <item name="android:fontFamily">@font/rajdhani</item>
+     <item name="android:fontFamily">
+         @font/rajdhani
+     </item>
      <item name="android:textSize">
          18sp
      </item>

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -23,10 +24,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fresco.initialize(MainActivity.this);
         setContentView(R.layout.activity_main);
         Log.d("msg", "running");
         Intent intent = new Intent(getApplicationContext(), SplashScreen.class);
-        startActivity(intent);
+        //startActivity(intent);
         viewPager = findViewById(R.id.mypager);
         pagerAdapter = new MyPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
@@ -46,27 +48,27 @@ public class MainActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
+            upcoming_frag uf = new upcoming_frag();
+            finished_frag ff = new finished_frag();
             switch (position) {
                 case 0: {
-                    return upcoming_frag.newInstance();
+                    return uf.newInstance(null);
                 }
                 case 1: {
-
-                    return finished_frag.newInstance();
+                    return ff.newInstance(null);
                 }
-
                 default:
-                    return upcoming_frag.newInstance();
+                    return uf.newInstance(null);
             }
         }
 
         @Override
         public int getItemCount() {
-
             return NUM_PAGES;
         }
     }
 
+    /*
     public void onBackPressed() {
         if (viewPager.getCurrentItem() == 0) {
 // If the user is currently looking at the first step, allow the system to handle the
@@ -78,4 +80,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+     */
 }

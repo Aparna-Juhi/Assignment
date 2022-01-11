@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +33,6 @@ public class finished_frag extends Fragment {
 
     Context mContext;
     static final String key = "data_transfer_key_for_bundling";
-    ArrayList<ArrayList<String>> dataList;
 
     @Nullable
     @Override
@@ -43,7 +43,10 @@ public class finished_frag extends Fragment {
         Log.d("test", "on create ok");
         finRecViu.setLayoutManager(new LinearLayoutManager(getMyContext()));
         //ArrayList<String> dataList = getArguments().getStringArrayList(key);
+        ArrayList<ArrayList<String>> dataList = new ArrayList<>();
         AdapterForFinishedMatches adapter = new AdapterForFinishedMatches(dataList);
+        getData(adapter);
+
         finRecViu.setAdapter(adapter);
         return v;
     }
@@ -54,7 +57,7 @@ public class finished_frag extends Fragment {
         return mContext;
     }
 
-    public static finished_frag newInstance(Object data) {
+    public finished_frag newInstance(Object data) {
 
         finished_frag f = new finished_frag();
         Bundle args = new Bundle();
@@ -68,12 +71,10 @@ public class finished_frag extends Fragment {
         f.setArguments(args);
          */
 
-
-        new finished_frag().getData();
         return f;
     }
 
-    private void getData() {
+    private void getData(AdapterForFinishedMatches adapter) {
         RequestQueue queue = Volley.newRequestQueue(getMyContext());
         String url ="https://mocki.io/v1/2389d44c-81aa-4e04-bd2e-b8c7e17572c0";
 
@@ -99,6 +100,18 @@ public class finished_frag extends Fragment {
 
                                 JSONObject jsonObj = jsonArr.getJSONObject(i);
                                 date = jsonObj.getString("date");
+                                SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+                                Date dt1 = null;
+                                try {
+                                    dt1 = format1.parse(date);
+                                }
+                                catch (Exception e) {
+                                    Log.d("error", "incorrect parsig of date");
+                                }
+                                DateFormat format2=new SimpleDateFormat("EEEE");
+                                String dayOfWeek=format2.format(dt1);
+                                String month[] = {" ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                                date = dayOfWeek +", "+ Integer.parseInt(date.substring(date.indexOf('/')+1, date.lastIndexOf('/'))) +" "+ month[Integer.parseInt(date.substring(0, date.indexOf('/')))];
 
                                 finishedDataItem.updateItem("1", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
 
@@ -117,7 +130,9 @@ public class finished_frag extends Fragment {
                                     overs1 = match.getString("overs1");
                                     overs2 = match.getString("overs2");
                                     winner = match.getString("winner");
+                                    winner = winner + " Won";
                                     result = match.getString("result");
+                                    result = result.substring(result.indexOf("by"));
 
                                     JSONObject matchIn3h = match.has("odds")?match.getJSONObject("odds"):null;
 
@@ -137,8 +152,11 @@ public class finished_frag extends Fragment {
                                             , null, null, null, childObj.getString("t1flag"), childObj.getString("t2flag"));
                                  */
                             }
-                            finishedDataItem.updateItem("2", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
-                            dataList = finishedDataItem.getDataList();
+                            finishedDataItem.updateItem("3", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
+
+                            adapter.dataList = finishedDataItem.getDataList();
+                            adapter.notifyDataSetChanged();
+
                         } catch (JSONException e) {
                             Log.e("error message", ""+e.getMessage());
                             e.printStackTrace();
