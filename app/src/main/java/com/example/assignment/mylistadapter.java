@@ -1,6 +1,8 @@
 package com.example.assignment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,76 +18,127 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.DraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.text.SimpleDateFormat;
 
-public class mylistadapter extends RecyclerView.Adapter<mylistadapter.ViewHolder> {
+
+public class mylistadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public scorecards[] scorecards;
+    private RecyclerView.ViewHolder holder;
+    private int position;
 
     // RecyclerView recyclerView;
     public mylistadapter(scorecards[] scorecards) {
         this.scorecards = scorecards;
     }
 
-
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public int getItemViewType(int position) {
+        Log.d("msg", "getItemtype");
+        //generate specific view required according to the data
+        if(scorecards.length > position)
+        switch (scorecards[position].getKey()) {
+            case 1:
+                return 1;
+            case 2:
+                return 2;
 
-        Fresco.initialize(parent.getContext());
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.list_item, parent, false);
-
-        // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
-        return viewHolder;
+        }
+        return super.getItemViewType(position);
     }
 
+    @NonNull
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //final scorecards myListData = scorecards[position];
-        holder.t1.setText(scorecards[position].gett1());
-        holder.t2.setText(scorecards[position].gett2());
-        holder.t1flag.setImageURI(scorecards[position].gett1flag());
-        holder.t2flag.setImageURI(scorecards[position].gett2flag());
-        holder.starting_in.setText(scorecards[position].getStarting_in());
-        holder.time.setText(scorecards[position].getTime());
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = null;
+        Log.d("msg", "oncreate");
+
+        switch (viewType) {
+            case 1:
+                Log.d("msg", "case1");
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+                // get a viewHolder object passing the view to ViewHolderForMatchIn3h constructor
+                ViewHolder viewHolderForMatchDate = new ViewHolder(view);
+                return viewHolderForMatchDate;
+            case 2:
+                Log.d("msg", "case2");
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_upcoming_matches, parent, false);
+                // get a viewHolder object passing the view to ViewHolderForMatchIn3h constructor
+                ViewHolderUpcomingAll viewHolderForUpcomingAll = new ViewHolderUpcomingAll(view);
+                return viewHolderForUpcomingAll;
+            default:
+                return null;
 
 
-        if(scorecards[position].getrate()!=null) {
-            holder.rate.setText(scorecards[position].getrate());
-            holder.rate2.setText(scorecards[position].getrate2());
-            holder.rate_team.setText(scorecards[position].getrate_team());
         }
-        else
-        {
-            holder.rectangle3.setVisibility(View.GONE);
-            holder.rectangle4.setVisibility(View.GONE);
-            holder.rectangle5.setVisibility(View.GONE);
-
-            /*
-            holder.rate.setText("0");
-            holder.rate2.setText("0");
-            holder.rate_team.setText("0");*/
-        }
-
-
-
 
 
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Log.d("msg", "onBind");
+        switch (holder.getItemViewType()) {
+            case 1:
+                ViewHolder viewHolderForMatchDate = (ViewHolder) holder;
+                viewHolderForMatchDate.t1.setText(scorecards[position].gett1());
+                viewHolderForMatchDate.t2.setText(scorecards[position].gett2());
+                viewHolderForMatchDate.t1flag.setImageURI(scorecards[position].gett1flag());
+                viewHolderForMatchDate.t2flag.setImageURI(scorecards[position].gett2flag());
+
+
+                long time_of_match=Long.parseLong(scorecards[position].getStarting_in());
+                SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm aa");
+                SimpleDateFormat formatDate=new SimpleDateFormat("d MMM ");
+                long system_time=System.currentTimeMillis();
+                String time = formatTime.format(
+                        time_of_match);
+                String date=formatDate.format(time_of_match);
+                viewHolderForMatchDate.starting_in.setText(time);
+                viewHolderForMatchDate.time.setText(date);
+                viewHolderForMatchDate.starting_in.setText(time);
+                viewHolderForMatchDate.time.setText(date);
+
+
+                if (scorecards[position].getrate() != null) {
+                    viewHolderForMatchDate.rate.setText(scorecards[position].getrate());
+                    viewHolderForMatchDate.rate2.setText(scorecards[position].getrate2());
+                    viewHolderForMatchDate.rate_team.setText(scorecards[position].getrate_team());
+                } else {
+                    viewHolderForMatchDate.rectangle3.setVisibility(View.GONE);
+                    viewHolderForMatchDate.rectangle4.setVisibility(View.GONE);
+                    viewHolderForMatchDate.rectangle5.setVisibility(View.GONE);
+
+
+                }
+                break;
+
+
+            case 2:
+                ViewHolderUpcomingAll viewHolderForUpcomingAll = (ViewHolderUpcomingAll) holder;
+                viewHolderForUpcomingAll.textView.setText("All Upcoming Matches");
+
+
+        }
+    }
 
     @Override
     public int getItemCount() {
+        Log.d("msg", "count");
+        if(scorecards==null)
+            return 0;
         return scorecards.length;
     }
+
+    //very necessary here (setting the type of layout to be inflated)
+
+
+    //View holder for upcoming matches
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView t1, t2, rate, rate2, rate_team, starting_in, time;
-        public View rectangle3, rectangle4,rectangle5;
-        SimpleDraweeView t1flag,t2flag;
+        public View rectangle3, rectangle4, rectangle5;
+        SimpleDraweeView t1flag, t2flag;
         public TextView place;
         public CardView cardview;
 
@@ -93,13 +146,13 @@ public class mylistadapter extends RecyclerView.Adapter<mylistadapter.ViewHolder
             super(itemView);
             this.t1 = (TextView) itemView.findViewById(R.id.t1);
             this.t2 = (TextView) itemView.findViewById(R.id.t2);
-            this.starting_in=(TextView) itemView.findViewById(R.id.starting_in);
-            this.time= (TextView) itemView.findViewById(R.id.time);
-            this.rectangle3=(View) itemView.findViewById(R.id.rate);
-            this.rectangle4=(View) itemView.findViewById(R.id.rate2);
-            this.rectangle5=(View) itemView.findViewById(R.id.rate_team);
-            this.t1flag=(SimpleDraweeView) itemView.findViewById(R.id.t1flag);
-            this.t2flag=(SimpleDraweeView) itemView.findViewById(R.id.t2flag);
+            this.starting_in = (TextView) itemView.findViewById(R.id.starting_in);
+            this.time = (TextView) itemView.findViewById(R.id.time);
+            this.rectangle3 = (View) itemView.findViewById(R.id.rate);
+            this.rectangle4 = (View) itemView.findViewById(R.id.rate2);
+            this.rectangle5 = (View) itemView.findViewById(R.id.rate_team);
+            this.t1flag = (SimpleDraweeView) itemView.findViewById(R.id.t1flag);
+            this.t2flag = (SimpleDraweeView) itemView.findViewById(R.id.t2flag);
 
             this.rate = (TextView) itemView.findViewById(R.id.rate);
             this.rate2 = (TextView) itemView.findViewById(R.id.rate2);
@@ -108,4 +161,18 @@ public class mylistadapter extends RecyclerView.Adapter<mylistadapter.ViewHolder
             cardview = (CardView) itemView.findViewById(R.id.cardview);
         }
     }
+
+
+    //View holder for all upcoming messages
+    public static class ViewHolderUpcomingAll extends RecyclerView.ViewHolder {
+        public TextView textView;
+
+        public ViewHolderUpcomingAll(@NonNull View itemView) {
+            super(itemView);
+            this.textView = (TextView) itemView.findViewById(R.id.upcoming_matches_setText);
+
+
+        }
+    }
+
 }

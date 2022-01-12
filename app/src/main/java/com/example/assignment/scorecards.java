@@ -1,7 +1,8 @@
 package com.example.assignment;
 public class scorecards {
     private String t1,t2,t1flag,t2flag,rate,rate2,rate_team, time, starting_in;
-    public scorecards(String t1, String t2, String rate, String rate2, String rate_team, String t1flag, String t2flag, String time, String starting_in) {
+    private  int key;
+    public scorecards(int key, String t1, String t2, String rate, String rate2, String rate_team, String t1flag, String t2flag, String time, String starting_in) {
         this.t1 = t1;
         this.t2 = t2;
         this.rate = rate;
@@ -11,6 +12,7 @@ public class scorecards {
         this.t2flag=t2flag;
         this.starting_in=starting_in;
         this.time=time;
+        this.key=key;
     }
     public String gett1() {
         return t1;
@@ -32,6 +34,9 @@ public class scorecards {
     }
     public String getrate_team() {
         return rate_team;
+    }
+    public int getKey(){
+        return key;
     }
 
     public String getStarting_in() {
