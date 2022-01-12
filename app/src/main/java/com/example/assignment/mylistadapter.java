@@ -2,6 +2,7 @@ package com.example.assignment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +19,17 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.DraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import org.json.JSONException;
+
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class mylistadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public scorecards[] scorecards;
     private RecyclerView.ViewHolder holder;
     private int position;
+    private  long t, difference_in_timestamps;
 
     // RecyclerView recyclerView;
     public mylistadapter(scorecards[] scorecards) {
@@ -90,13 +95,41 @@ public class mylistadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm aa");
                 SimpleDateFormat formatDate=new SimpleDateFormat("d MMM ");
                 long system_time=System.currentTimeMillis();
-                String time = formatTime.format(
-                        time_of_match);
-                String date=formatDate.format(time_of_match);
-                viewHolderForMatchDate.starting_in.setText(time);
-                viewHolderForMatchDate.time.setText(date);
-                viewHolderForMatchDate.starting_in.setText(time);
-                viewHolderForMatchDate.time.setText(date);
+//                long system_time=10400000;
+
+                difference_in_timestamps = time_of_match -system_time;
+                Log.d("msg", "running  "+difference_in_timestamps);
+                if((time_of_match - system_time) <= 10800000 && (time_of_match - system_time)>=0) {
+
+
+
+                    viewHolderForMatchDate.starting_in.setText("Starting In");
+                   // t= difference_in_timestamps;
+                    new CountDownTimer(difference_in_timestamps, 1000)
+                    {
+                        @Override
+                        public void onTick(long l) {
+                            String time = formatTime.format(l);
+                           // Log.d("msg", "ticking : "+time);
+                            viewHolderForMatchDate.time.setText(time);
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            Log.d("msg", "Finish");
+
+                        }
+                    }.start();
+                }
+                else {
+                    String time = formatTime.format(
+                            time_of_match);
+                    String date = formatDate.format(time_of_match);
+                    viewHolderForMatchDate.starting_in.setText(time);
+                    viewHolderForMatchDate.time.setText(date);
+                }
+
 
 
                 if (scorecards[position].getrate() != null) {
