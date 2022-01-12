@@ -1,7 +1,9 @@
 package com.example.assignment;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,11 +33,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class upcoming_frag extends Fragment {
 
     Context mContext;
-
+    Handler handler = new Handler();
 
     @Nullable
     @Override
@@ -64,17 +69,14 @@ public class upcoming_frag extends Fragment {
     public upcoming_frag newInstance(Object data) {
 
         upcoming_frag f = new upcoming_frag();
-
         //Bundle args = new Bundle();
 
         //f.getData();
 
         //args.putStringArrayList("transfer_to_new_fragment", new upcoming_frag().dataList);
         //f.setArguments(args);
-
         return f;
     }
-
 
      void getData(AdapterForUpcomingMatches adapter) {
         RequestQueue queue = Volley.newRequestQueue(getMyContext());
@@ -95,6 +97,7 @@ public class upcoming_frag extends Fragment {
                             UpcomingDataItem upcomingDataItem = new UpcomingDataItem();
                             String key ="", team1Name ="", team2Name ="", team1Flag ="", team2Flag ="", date ="", timeStamp ="", oddsInFavour ="", oddsAgainst ="", rateTeamName = "";
 
+
                             for (int i = 0; i < jsonArr.length(); i++)
                             {
 
@@ -112,7 +115,7 @@ public class upcoming_frag extends Fragment {
                                     dt1 = format1.parse(date);
                                 }
                                 catch (Exception e) {
-                                    Log.d("error", "incorrect parsig of date");
+                                    Log.d("error", "incorrect parsing of date");
                                 }
                                 DateFormat format2=new SimpleDateFormat("EEEE");
                                 String dayOfWeek=format2.format(dt1);
@@ -136,6 +139,9 @@ public class upcoming_frag extends Fragment {
                                     Long timeStampLong = Long.parseLong(match.getString("t"));
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
                                     timeStamp = dateFormat.format(new Date(timeStampLong));
+                                    timeStamp = timeStamp.substring(0, timeStamp.indexOf(':'))+"h"+timeStamp.substring(timeStamp.indexOf(':'))+"m";
+
+
 
                                     JSONObject matchIn3h = match.has("odds")?match.getJSONObject("odds"):null;
 
@@ -167,7 +173,40 @@ public class upcoming_frag extends Fragment {
                             upcomingDataItem.updateItem("4", team1Name, team2Name, team1Flag, team2Flag, date, timeStamp, oddsInFavour, oddsAgainst, rateTeamName);
 
                             adapter.dataList = upcomingDataItem.getDataList();
-                            adapter.notifyDataSetChanged();
+
+
+                            int interval = 60000; //milliseconds
+                            /*
+                            new Timer().scheduleAtFixedRate(new TimerTask()
+                            {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
+                                @Override
+                                public void run() {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Log.d("test", "timer running");
+                                            adapter.dataList = upcomingDataItem.getUpdatedDataList();
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    });
+
+                                }
+                            }, after, interval);
+                            */
+
+                            getActivity().runOnUiThread(new Runnable() {
+                                @RequiresApi(api = Build.VERSION_CODES.O)
+                                @Override
+                                public void run() {
+                                    Log.d("test", "timer running");
+                                    adapter.dataList = upcomingDataItem.getUpdatedDataList();
+                                    adapter.notifyDataSetChanged();
+                                    handler.postDelayed(this, interval);
+                                }
+                            });
+
+                            //adapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             Log.e("error message", ""+e.getMessage());
@@ -175,63 +214,22 @@ public class upcoming_frag extends Fragment {
                         }
                     }
 
-
-
-
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("error", "error in reading from Volley");
                     }
-                });;
+                });
         queue.add(stringRequest);
     }
 
-    String getFormarttedDate(String date)  {
-        //String input_date="01/08/2012";
-        /*
-        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
-        Date dt1=null;
+    @Override
+    public void onPause() {
+        super.onPause();
         try {
-            dt1 = format1.parse(date);
+            handler.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        catch (Exception e) {}
-        DateFormat format2=new SimpleDateFormat("EEEE");
-        String finalDay=format2.format(dt1);
-        String res=finalDay+" ";
-        */
-        String res="";
-        int day = Integer.parseInt(date.substring(date.indexOf('/')));
-        int month = Integer.parseInt(date.substring(date.indexOf('/')+1, date.lastIndexOf('/')));
-        res += day+" ";
-
-        switch(month) {
-            case 1:
-                res+="January";  break;
-            case 2:
-                res+="February";  break;
-            case 3:
-                res+="March";  break;
-            case 4:
-                res+="April";  break;
-            case 5:
-                res+="May";  break;
-            case 6:
-                res+="Jun";  break;
-            case 7:
-                res+="July";  break;
-            case 8:
-                res+="August";  break;
-            case 9:
-                res+="September";  break;
-            case 10:
-                res+="October";  break;
-            case 11:
-                res+="November";  break;
-            case 12:
-                res+="December";  break;
-        }
-        return res;
     }
-
 }

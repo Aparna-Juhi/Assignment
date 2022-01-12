@@ -1,7 +1,16 @@
 package com.example.assignment;
 
+import android.os.Build;
+import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
 import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Handler;
 
 public class UpcomingDataItem {
 
@@ -43,6 +52,42 @@ public class UpcomingDataItem {
     }
 
     ArrayList<ArrayList<String>> getDataList() {
+        return dataList;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    ArrayList<ArrayList<String>> getUpdatedDataList() {
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        String curTime = now.format(dtf);
+        for(int i=0; i<dataList.size();i++) {
+            Log.d("test", "getUpdateDataList");
+            ArrayList<String> a = dataList.get(i);
+            String timeStamp = a.get(6);
+
+            if(timeStamp.equals(""))
+                continue;
+
+            int h = 0;
+            int m = 0;
+            try {
+                h = Integer.parseInt(timeStamp.substring(0, timeStamp.indexOf('h'))) - Integer.parseInt(curTime.substring(0, curTime.indexOf(':')));
+                m = Integer.parseInt(timeStamp.substring(timeStamp.indexOf(':') + 1, timeStamp.indexOf('m'))) - Integer.parseInt(curTime.substring(curTime.indexOf(':') + 1));
+                m--;
+                if (m < 0) {
+                    h--;
+                    m = 59;
+                }
+            }
+            catch (Exception e) {
+                Log.d("test", e.toString());
+            }
+            timeStamp = h +"h:" + m +"m";
+            Log.d("test", timeStamp);
+            a.set(6, timeStamp);
+        }
+
         return dataList;
     }
 

@@ -95,7 +95,6 @@
         android:layout_height="wrap_content"
         android:maxWidth="110dp"
         android:fontFamily="@font/poppins"
-        android:lines="2"
         android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="@id/match_results"
         app:layout_constraintRight_toRightOf="@id/match_results"
