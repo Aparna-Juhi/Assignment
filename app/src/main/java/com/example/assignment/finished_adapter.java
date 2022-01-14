@@ -13,12 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
+
 public class finished_adapter extends RecyclerView.Adapter<finished_adapter.ViewHolder> {
-    public finished_scorecards[] finished_scorecards;
+    public ArrayList<finished_scorecards> finished_scorecards= new ArrayList<>() ;
 
 
     // RecyclerView recyclerView;
-    public finished_adapter(finished_scorecards[] finished_scorecards) {
+    public finished_adapter(ArrayList<finished_scorecards>  finished_scorecards) {
         this.finished_scorecards = finished_scorecards;
     }
 
@@ -41,23 +43,23 @@ public class finished_adapter extends RecyclerView.Adapter<finished_adapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
        // final finished_scorecards myListData = finished_scorecards[position];
-        holder.team_name_1.setText(finished_scorecards[position].getTeam_name_1());
-        holder.team_name_2.setText(finished_scorecards[position].getTeam_name_2());
-        holder.match_result.setText(finished_scorecards[position].getMatch_result());
+        holder.team_name_1.setText(finished_scorecards.get(position).getTeam_name_1());
+        holder.team_name_2.setText(finished_scorecards.get(position).getTeam_name_2());
+        holder.match_result.setText(finished_scorecards.get(position).getMatch_result());
 
-        holder.team1score.setText(finished_scorecards[position].getTeam1score());
-        holder.team2score.setText(finished_scorecards[position].getTeam2score());
-        holder.total_overs_1.setText(finished_scorecards[position].getTotal_overs_1());
-        holder.total_overs_2.setText(finished_scorecards[position].getTotal_overs_2());
-        holder.result_details.setText(finished_scorecards[position].getResult_details());
-        holder.team_flag_1.setImageURI(finished_scorecards[position].getTeam_flag_1());
-        holder.team_flag_2.setImageURI(finished_scorecards[position].getTeam_flag_2());
+        holder.team1score.setText(finished_scorecards.get(position).getTeam1score());
+        holder.team2score.setText(finished_scorecards.get(position).getTeam2score());
+        holder.total_overs_1.setText(finished_scorecards.get(position).getTotal_overs_1());
+        holder.total_overs_2.setText(finished_scorecards.get(position).getTotal_overs_2());
+        holder.result_details.setText(finished_scorecards.get(position).getResult_details());
+        holder.team_flag_1.setImageURI(finished_scorecards.get(position).getTeam_flag_1());
+        holder.team_flag_2.setImageURI(finished_scorecards.get(position).getTeam_flag_2());
     }
 
 
     @Override
     public int getItemCount() {
-        return finished_scorecards.length;
+        return finished_scorecards.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

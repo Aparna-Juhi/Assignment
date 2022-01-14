@@ -97,9 +97,10 @@ public class mylistadapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 long system_time=System.currentTimeMillis();
 //                long system_time=10400000;
 
-                difference_in_timestamps = time_of_match -system_time;
+                difference_in_timestamps = time_of_match - system_time;
                 Log.d("msg", "running  "+difference_in_timestamps);
                 if((time_of_match - system_time) <= 10800000 && (time_of_match - system_time)>=0) {
+                    Log.d("if case", ""+difference_in_timestamps);
 
 
 

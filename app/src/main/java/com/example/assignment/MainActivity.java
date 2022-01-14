@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 case 1: {
 
-                    return finished_frag.newInstance();
+                    return FinishedFragArrayList.newInstance();
                 }
 
                 default:
