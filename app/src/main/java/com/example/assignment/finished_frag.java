@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +21,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,6 +82,191 @@ public class finished_frag extends Fragment {
     }
 
     private void getData(AdapterForFinishedMatches adapter) {
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        databaseReference.child("finished").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                FinishedDataItem finishedDataItem = new FinishedDataItem();
+                String key ="", team1Name ="", team2Name ="", team1Flag ="", team2Flag ="", date ="", score1 ="", score2 ="", overs1 ="", overs2 ="", winner ="", result ="";
+
+                String Date = snapshot.child("date").getValue().toString();
+
+                //changing date format
+                SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+                Date dt1 = null;
+                try {
+                    dt1 = format1.parse(Date);
+                }
+                catch (Exception e) {
+                    Log.d("error", "incorrect parsing of date");
+                }
+                DateFormat format2=new SimpleDateFormat("EEEE");
+                String dayOfWeek=format2.format(dt1);
+                String month[] = {" ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                date = dayOfWeek +", "+ Integer.parseInt(Date.substring(Date.indexOf('/')+1, Date.lastIndexOf('/'))) +" "+ month[Integer.parseInt(Date.substring(0, Date.indexOf('/')))];
+
+                finishedDataItem.updateItem("1", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
+
+                DataSnapshot snapshot1 = snapshot.child("m");
+                for(DataSnapshot match : snapshot1.getChildren()){
+
+                    MatchData matchData = match.getValue(MatchData.class);  //now working
+                    // Points to note
+                    // there must be a default constructor explicitly defined in MatchData class
+                    // instance variables should be public and of the same name as key value
+                    // only primitive datatypes allowed
+
+                    finishedDataItem.updateItem("2", matchData.t1, matchData.t2, matchData.t1flag, matchData.t2flag, matchData.score1, matchData.score2, matchData.overs1, matchData.overs2, matchData.winner, matchData.result.substring(matchData.result.indexOf("by")), matchData.date);
+
+                }
+
+                finishedDataItem.updateItem("3", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
+
+                adapter.dataList = finishedDataItem.getDataList();
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                FinishedDataItem finishedDataItem = new FinishedDataItem();
+                String key ="", team1Name ="", team2Name ="", team1Flag ="", team2Flag ="", date ="", score1 ="", score2 ="", overs1 ="", overs2 ="", winner ="", result ="";
+
+                String Date = snapshot.child("date").getValue().toString();
+
+                //changing date format
+                SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+                Date dt1 = null;
+                try {
+                    dt1 = format1.parse(Date);
+                }
+                catch (Exception e) {
+                    Log.d("error", "incorrect parsing of date");
+                }
+                DateFormat format2=new SimpleDateFormat("EEEE");
+                String dayOfWeek=format2.format(dt1);
+                String month[] = {" ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                date = dayOfWeek +", "+ Integer.parseInt(Date.substring(Date.indexOf('/')+1, Date.lastIndexOf('/'))) +" "+ month[Integer.parseInt(Date.substring(0, Date.indexOf('/')))];
+
+                finishedDataItem.updateItem("1", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
+
+                DataSnapshot snapshot1 = snapshot.child("m");
+                for(DataSnapshot match : snapshot1.getChildren()){
+
+                    MatchData matchData = match.getValue(MatchData.class);  //now working
+                    // Points to note
+                    // there must be a default constructor explicitly defined in MatchData class
+                    // instance variables should be public and of the same name as key value
+                    // only primitive datatypes allowed
+
+                    finishedDataItem.updateItem("2", matchData.t1, matchData.t2, matchData.t1flag, matchData.t2flag, matchData.score1, matchData.score2, matchData.overs1, matchData.overs2, matchData.winner, matchData.result.substring(matchData.result.indexOf("by")), matchData.date);
+
+                }
+
+                finishedDataItem.updateItem("3", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
+
+                adapter.dataList = finishedDataItem.getDataList();
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                FinishedDataItem finishedDataItem = new FinishedDataItem();
+                String key ="", team1Name ="", team2Name ="", team1Flag ="", team2Flag ="", date ="", score1 ="", score2 ="", overs1 ="", overs2 ="", winner ="", result ="";
+
+                String Date = snapshot.child("date").getValue().toString();
+
+                //changing date format
+                SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+                Date dt1 = null;
+                try {
+                    dt1 = format1.parse(Date);
+                }
+                catch (Exception e) {
+                    Log.d("error", "incorrect parsing of date");
+                }
+                DateFormat format2=new SimpleDateFormat("EEEE");
+                String dayOfWeek=format2.format(dt1);
+                String month[] = {" ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                date = dayOfWeek +", "+ Integer.parseInt(Date.substring(Date.indexOf('/')+1, Date.lastIndexOf('/'))) +" "+ month[Integer.parseInt(Date.substring(0, Date.indexOf('/')))];
+
+                finishedDataItem.updateItem("1", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
+
+                DataSnapshot snapshot1 = snapshot.child("m");
+                for(DataSnapshot match : snapshot1.getChildren()){
+
+                    MatchData matchData = match.getValue(MatchData.class);  //now working
+                    // Points to note
+                    // there must be a default constructor explicitly defined in MatchData class
+                    // instance variables should be public and of the same name as key value
+                    // only primitive datatypes allowed
+
+                    finishedDataItem.updateItem("2", matchData.t1, matchData.t2, matchData.t1flag, matchData.t2flag, matchData.score1, matchData.score2, matchData.overs1, matchData.overs2, matchData.winner, matchData.result.substring(matchData.result.indexOf("by")), matchData.date);
+
+                }
+
+                finishedDataItem.updateItem("3", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
+
+                adapter.dataList = finishedDataItem.getDataList();
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                FinishedDataItem finishedDataItem = new FinishedDataItem();
+                String key ="", team1Name ="", team2Name ="", team1Flag ="", team2Flag ="", date ="", score1 ="", score2 ="", overs1 ="", overs2 ="", winner ="", result ="";
+
+                String Date = snapshot.child("date").getValue().toString();
+
+                //changing date format
+                SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+                Date dt1 = null;
+                try {
+                    dt1 = format1.parse(Date);
+                }
+                catch (Exception e) {
+                    Log.d("error", "incorrect parsing of date");
+                }
+                DateFormat format2=new SimpleDateFormat("EEEE");
+                String dayOfWeek=format2.format(dt1);
+                String month[] = {" ", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                date = dayOfWeek +", "+ Integer.parseInt(Date.substring(Date.indexOf('/')+1, Date.lastIndexOf('/'))) +" "+ month[Integer.parseInt(Date.substring(0, Date.indexOf('/')))];
+
+                finishedDataItem.updateItem("1", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
+
+                DataSnapshot snapshot1 = snapshot.child("m");
+                for(DataSnapshot match : snapshot1.getChildren()){
+
+                    MatchData matchData = match.getValue(MatchData.class);  //now working
+                    // Points to note
+                    // there must be a default constructor explicitly defined in MatchData class
+                    // instance variables should be public and of the same name as key value
+                    // only primitive datatypes allowed
+
+                    finishedDataItem.updateItem("2", matchData.t1, matchData.t2, matchData.t1flag, matchData.t2flag, matchData.score1, matchData.score2, matchData.overs1, matchData.overs2, matchData.winner, matchData.result.substring(matchData.result.indexOf("by")), matchData.date);
+
+                }
+
+                finishedDataItem.updateItem("3", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
+
+                adapter.dataList = finishedDataItem.getDataList();
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("fatal", "error occurred");
+            }
+        });
+
+        /*
         RequestQueue queue = Volley.newRequestQueue(getMyContext());
         String url ="https://mocki.io/v1/2389d44c-81aa-4e04-bd2e-b8c7e17572c0";
 
@@ -93,10 +285,7 @@ public class finished_frag extends Fragment {
                             for (int i = 0; i < jsonArr.length(); i++)
                             {
 
-                                /*
-                                JSONObject jsonObj = jsonArr.getJSONObject(i);
-                                scorecards[i]=new scorecards(jsonObj.getString("date"), "Delhi");
-                                */
+
 
                                 JSONObject jsonObj = jsonArr.getJSONObject(i);
                                 date = jsonObj.getString("date");
@@ -106,7 +295,7 @@ public class finished_frag extends Fragment {
                                     dt1 = format1.parse(date);
                                 }
                                 catch (Exception e) {
-                                    Log.d("error", "incorrect parsig of date");
+                                    Log.d("error", "incorrect parsing of date");
                                 }
                                 DateFormat format2=new SimpleDateFormat("EEEE");
                                 String dayOfWeek=format2.format(dt1);
@@ -139,18 +328,7 @@ public class finished_frag extends Fragment {
                                     finishedDataItem.updateItem("2", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
                                 }
 
-                                /*
-                                JSONObject childObj = childArr.getJSONObject(0);
-                                JSONObject childchildObj= childObj.has("odds")?childObj.getJSONObject("odds"):null;
-                                //jsonObj.getString("date")
-                                if(childchildObj!=null)
-                                    scorecards[i]=new scorecards(childObj.getString("t1"), childObj.getString("t2")
-                                            , childchildObj.getString("rate"), childchildObj.getString("rate2"),
-                                            childchildObj.getString("rate_team"), childObj.getString("t1flag"), childObj.getString("t2flag"));
-                                else
-                                    scorecards[i]=new scorecards(childObj.getString("t1"), childObj.getString("t2")
-                                            , null, null, null, childObj.getString("t1flag"), childObj.getString("t2flag"));
-                                 */
+
                             }
                             finishedDataItem.updateItem("3", team1Name, team2Name, team1Flag, team2Flag, score1, score2, overs1, overs2, winner, result, date);
 
@@ -169,8 +347,35 @@ public class finished_frag extends Fragment {
             }
         });;
         queue.add(stringRequest);
+        */
 
     }
 
+}
+
+class MatchData {
+    public String date, match_no, overs1, overs2, result, score1, score2;
+    public long t;
+    public String t1, t1flag, t2, t2flag, winner;
+
+    public MatchData(String date, String match_no, String overs1, String overs2, String result, String score1, String score2, long t, String t1, String t1flag, String t2, String t2flag, String winner) {
+        this.date = date;
+        this.match_no = match_no;
+        this.overs1 = overs1;
+        this.overs2 = overs2;
+        this.result = result;
+        this.score1 = score1;
+        this.score2 = score2;
+        this.t = t;
+        this.t1 = t1;
+        this.t1flag = t1flag;
+        this.t2 = t2;
+        this.t2flag = t2flag;
+        this.winner = winner + " Won";
+    }
+
+    public MatchData() {
+
+    }
 }
 

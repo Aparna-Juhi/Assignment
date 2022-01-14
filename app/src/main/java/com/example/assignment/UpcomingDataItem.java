@@ -74,6 +74,7 @@ public class UpcomingDataItem {
             try {
                 h = Integer.parseInt(timeStamp.substring(0, timeStamp.indexOf('h'))) - Integer.parseInt(curTime.substring(0, curTime.indexOf(':')));
                 m = Integer.parseInt(timeStamp.substring(timeStamp.indexOf(':') + 1, timeStamp.indexOf('m'))) - Integer.parseInt(curTime.substring(curTime.indexOf(':') + 1));
+                Log.d("time", curTime + " " + timeStamp);
                 m--;
                 if (m < 0) {
                     h--;

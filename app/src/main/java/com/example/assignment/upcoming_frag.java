@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,12 +39,31 @@ import java.util.TimerTask;
 
 public class upcoming_frag extends Fragment {
 
+
+    /*
+    Lifecycle
+
+    onAttach() -> onCreate() -> onCreateView() -> onActivityCreated() -> onStart() ->
+    onResume() -> <- onPause()   => when user swipes between fragments
+    -> onStop() -> onDestroyView() -> onDestroy() -> onDetach()
+
+     */
+
     Context mContext;
-    Handler handler = new Handler();
+    Handler handler;
+    boolean stopper;
+    Runnable runnable;
+    AdapterForUpcomingMatches adapter;
+    UpcomingDataItem upcomingDataItem;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        Log.d("life", "onCreateView called");
+        // creates and returns view hierarchy
+
         View v = inflater.inflate(R.layout.upcoming_frag, container, false);
         RecyclerView upcRecViu = v.findViewById(R.id.recycler_view_for_upcoming_matches);
         upcRecViu.setLayoutManager(new LinearLayoutManager(getMyContext()));
@@ -51,9 +71,9 @@ public class upcoming_frag extends Fragment {
         //ArrayList<ArrayList<String>> dataList= getArguments().getStringArrayList("transfer_to_new_fragment");
 
         ArrayList<ArrayList<String>> dataList = new ArrayList<>();
-        AdapterForUpcomingMatches adapter = new AdapterForUpcomingMatches(dataList);
+        adapter = new AdapterForUpcomingMatches(dataList);
 
-        getData(adapter);
+        getData();
         //upcRecViu.setHasFixedSize(true);
         upcRecViu.setAdapter(adapter);
 
@@ -70,6 +90,7 @@ public class upcoming_frag extends Fragment {
 
         upcoming_frag f = new upcoming_frag();
         //Bundle args = new Bundle();
+        handler = new Handler();
 
         //f.getData();
 
@@ -78,9 +99,9 @@ public class upcoming_frag extends Fragment {
         return f;
     }
 
-     void getData(AdapterForUpcomingMatches adapter) {
+     void getData() {
         RequestQueue queue = Volley.newRequestQueue(getMyContext());
-        String url ="https://mocki.io/v1/30786c0a-390e-41d5-9ad8-549ed26cba64";
+        String url ="https://mocki.io/v1/5ce5957e-eb98-46e0-a463-e59392856f68";
         Log.d("test", "getData Loaded");
 
 
@@ -94,7 +115,7 @@ public class upcoming_frag extends Fragment {
                             JSONArray jsonArr = new JSONArray(response);
                             //scorecards = new scorecards[jsonArr.length()];
 
-                            UpcomingDataItem upcomingDataItem = new UpcomingDataItem();
+                            upcomingDataItem = new UpcomingDataItem();
                             String key ="", team1Name ="", team2Name ="", team1Flag ="", team2Flag ="", date ="", timeStamp ="", oddsInFavour ="", oddsAgainst ="", rateTeamName = "";
 
 
@@ -175,36 +196,22 @@ public class upcoming_frag extends Fragment {
                             adapter.dataList = upcomingDataItem.getDataList();
 
 
-                            int interval = 60000; //milliseconds
-                            /*
-                            new Timer().scheduleAtFixedRate(new TimerTask()
-                            {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void run() {
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Log.d("test", "timer running");
-                                            adapter.dataList = upcomingDataItem.getUpdatedDataList();
-                                            adapter.notifyDataSetChanged();
-                                        }
-                                    });
-
-                                }
-                            }, after, interval);
-                            */
-
-                            getActivity().runOnUiThread(new Runnable() {
+                            int interval = 60000;
+                            //adapter.notifyDataSetChanged();
+                            //startHandler();
+                            handler = new Handler();
+                            runnable = new Runnable() {
                                 @RequiresApi(api = Build.VERSION_CODES.O)
                                 @Override
                                 public void run() {
                                     Log.d("test", "timer running");
                                     adapter.dataList = upcomingDataItem.getUpdatedDataList();
                                     adapter.notifyDataSetChanged();
-                                    handler.postDelayed(this, interval);
+
                                 }
-                            });
+                            };
+                            getActivity().runOnUiThread(runnable);
+                            handler.postDelayed(runnable, interval);
 
                             //adapter.notifyDataSetChanged();
 
@@ -223,13 +230,88 @@ public class upcoming_frag extends Fragment {
         queue.add(stringRequest);
     }
 
+
     @Override
     public void onPause() {
         super.onPause();
-        try {
-            handler.wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        Log.d("life", "onPause called");
+
+        handler.removeCallbacks(runnable);
+
+        // called when fragment is no longer interACTIVE
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("life", "onStop called");
+        handler.removeCallbacks(runnable);
+
+        // called when activity is no longer visible
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("life", "onDestroyView called");
+
+        // allows the fragment to clean up resources(View object)
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("life", "onDestroy called");
+
+        // allows the fragment to do final clean up of fragment state
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("life", "onDetach called");
+
+        // called prior to fragment no longer being attached to activity
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.d("life", "onAttach called");
+
+        // called when it is attached with activity
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("life", "onCreate called");
+
+        // used to initialize the fragment
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d("life", "onActivityCreated");
+
+        // invoked after completion of onCreate method
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("life", "onStart called");
+
+        // makes fragment visible
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("life", "onResume called");
+
+        // makes fragment interactive
     }
 }
